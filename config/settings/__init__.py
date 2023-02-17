@@ -1,2 +1,2 @@
-from .installed_apps import *
-from .settings import *
+from .installed_apps import * # noqa
+from .settings import * # noqa
