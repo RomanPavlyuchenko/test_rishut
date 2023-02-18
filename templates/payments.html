@@ -1,0 +1,28 @@
+<html>
+  <head>
+  </head>
+  <body>
+    Item name: {{ name }}<br>
+    Item description: {{ description }} <br>
+    Item price: {{ price }} <br>
+    <form>
+      <button id="{{ id }}" class="api">Checkout</button>
+    </form>
+  </body>
+  <script type="module" src="https://js.stripe.com/v3/"></script>
+  <script>
+    var DOMAIN = window.location.origin;
+
+    document
+      .getElementsByClassName("api")[0]
+      .addEventListener("click", async (e) => {
+        e.preventDefault()
+        let id = e.target.id
+        let path = `http://127.0.0.1:8000/api/orders/items/buy/${id}/`
+        let res = await fetch(path)
+        let data = await res.json()
+        Stripe('pk_test_51McUocJdC87l3gCa9MGjqhREXlzk12jMNb3dHpMq4qFNp1w7dPokhcutl1ivEehrW9MUPTfwiGUPafyVldBP8tyI008QE9AcdE')
+          .redirectToCheckout({sessionId: data.id})
+      });
+  </script>
+</html>

@@ -5,7 +5,7 @@ from .viewsets import ItemViewSet
 items_router = DefaultRouter()
 
 items_router.register(
-    prefix='',
+    prefix='items',
     viewset=ItemViewSet,
-    basename='',
+    basename='items'
 )
