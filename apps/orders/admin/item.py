@@ -4,5 +4,5 @@ from ..models import Item
 
 
 @admin.register(Item)
-class TransactionAdmin(admin.ModelAdmin):
+class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'price')

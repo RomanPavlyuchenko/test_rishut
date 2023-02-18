@@ -1,1 +1,2 @@
-from .item import Item # noqa
+from .item import ItemAdmin # noqa
+from .order import OrderAdmin # noqa

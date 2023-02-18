@@ -20,9 +20,6 @@ class ItemViewSet(viewsets.ModelViewSet):
         queryset = Item.objects.all()
         return queryset
 
-    def get_object(self) -> Item:
-        return super().get_object()
-
     @action(methods=('GET',), detail=False, url_path='buy/(?P<pk>[^/.]+)',)
     def get_checkout_id(self, request: Request, pk=None) -> Response:
         obj = self.get_object()
@@ -39,5 +36,5 @@ class ItemViewSet(viewsets.ModelViewSet):
                 'price': obj.price,
                 'id': obj.pk,
             },
-            template_name='payments.html'
+            template_name='payment_item.html'
         )
