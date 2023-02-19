@@ -14,6 +14,20 @@ class Order(models.Model):
         related_name='orders',
         verbose_name='Товары',
     )
+    tax = models.ForeignKey(
+        'Tax',
+        related_name='orders',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    discount = models.ForeignKey(
+        'Discount',
+        related_name='orders',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
 
     objects = OrderManager()
 
