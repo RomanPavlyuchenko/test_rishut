@@ -1,9 +1,9 @@
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 
 from .installed_apps import INSTALLED_APPS # noqa
-import dj_database_url
 
 load_dotenv()
 
@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = 'django-insecure-6dr#zo$szouj6)r&gx=@*9e$u+m3o=%etgc*e8gy7=hxqiwm0&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = []
 
@@ -55,8 +55,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config()}
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
