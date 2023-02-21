@@ -14,7 +14,6 @@ from payments import checkout_create
 class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemRetrieveSerializer
     filter_backends = (DjangoFilterBackend,)
-    renderer_classes = [TemplateHTMLRenderer]
 
     def get_queryset(self):
         queryset = Item.objects.all()
@@ -23,10 +22,11 @@ class ItemViewSet(viewsets.ModelViewSet):
     @action(methods=('GET',), detail=False, url_path='buy/(?P<pk>[^/.]+)',)
     def get_checkout_id(self, request: Request, pk=None) -> Response:
         obj = self.get_object()
-        session = checkout_create(obj.price, obj.name)
+        session = checkout_create(price=obj.price, name=obj.name)
         return JsonResponse({'id': session.id})
 
-    @action(methods=('GET',), detail=False, url_path='item/(?P<pk>[^/.]+)',)
+    @action(methods=('GET',), detail=False,
+            url_path='item/(?P<pk>[^/.]+)', renderer_classes=[TemplateHTMLRenderer,])
     def get_payment_page(self, request: Request, pk=None) -> Response:
         obj = self.get_object()
         return Response(

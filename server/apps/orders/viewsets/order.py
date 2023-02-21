@@ -12,7 +12,6 @@ from payments import checkout_create
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    renderer_classes = [TemplateHTMLRenderer]
 
     def get_queryset(self) -> OrderQuerySet:
         return Order.objects.get_queryset().annotate_amounts()
@@ -20,7 +19,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self, *args, **kwargs):
         return OrderAmountSerializer
 
-    @action(methods=('GET',), detail=False, url_path='buy/(?P<pk>[^/.])',)
+    @action(methods=('GET',), detail=False, url_path='buy/(?P<pk>[^/.])')
     def get_checkout_id(self, request: Request, pk=None) -> Response:
         obj = self.get_object()
         tax = obj.tax.percent if obj.tax else None
@@ -33,7 +32,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         )
         return JsonResponse({'id': session.id})
 
-    @action(methods=('GET',), detail=False, url_path='pay/(?P<pk>[^/.]+)',)
+    @action(methods=('GET',), detail=False,
+            url_path='pay/(?P<pk>[^/.]+)', renderer_classes=[TemplateHTMLRenderer,])
     def get_payment_page(self, request: Request, pk=None) -> Response:
         obj = self.get_object()
         data = OrderAmountSerializer(obj).data
