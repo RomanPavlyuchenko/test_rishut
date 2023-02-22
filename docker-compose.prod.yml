@@ -30,7 +30,6 @@ services:
     environment:
       DEBUG: 'False'
 
-
   db:
     image: postgres:14.6-alpine
     env_file:
@@ -44,3 +43,5 @@ services:
       retries: 5
       start_period: 10s
     restart: unless-stopped
+    volumes:
+      - ./db:/var/lib/postgresql/data
