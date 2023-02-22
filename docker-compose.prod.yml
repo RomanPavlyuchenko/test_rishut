@@ -7,13 +7,13 @@ services:
       context: ./
       dockerfile: ./nginx/Dockerfile
     depends_on:
-      - server
+      - django
     ports:
       - 80:80
     volumes:
       - ./server/media:/nginx/media
       
-  server:
+  django:
     build:
       context: ./
       dockerfile: ./server/Dockerfile
@@ -29,11 +29,7 @@ services:
     restart: always
     environment:
       DEBUG: 'False'
-    # entrypoint: ['entrypoint.sh']
 
-      
-    # volumes:
-    #   - ./server/media:/server/media
 
   db:
     image: postgres:14.6-alpine

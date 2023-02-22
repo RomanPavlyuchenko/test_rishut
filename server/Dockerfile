@@ -12,4 +12,6 @@ RUN pip install poetry && poetry config virtualenvs.create false && poetry insta
 
 COPY ./server /server
 
+RUN python3 manage.py collectstatic
+
 ENTRYPOINT ["/server/entrypoint.sh"]

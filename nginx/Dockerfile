@@ -12,6 +12,8 @@ RUN pip install poetry && poetry config virtualenvs.create false && poetry insta
 
 COPY ./server /server
 
+RUN python3 manage.py collectstatic
+
 ENTRYPOINT ["/server/entrypoint.sh"]
 
 #########################################
@@ -22,4 +24,4 @@ RUN rm -v /etc/nginx/nginx.conf
 ADD ./nginx/nginx.conf /etc/nginx/
 
 RUN mkdir /nginx
-COPY --from=server /server/static /nginx/static
+COPY --from=server /server/staticfiles /nginx/static
